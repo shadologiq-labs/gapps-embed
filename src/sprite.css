@@ -1,0 +1,62 @@
+.sprite-icon {
+  width: 53px;
+  height: 53px;
+  display: inline-block;
+  margin-bottom: 8px;
+  background-image: url('../assets/sprite.png');
+  background-size: 53px 3011px;
+  background-repeat: no-repeat;
+}
+
+.icon-notebooklm  { background-position: 0px    0px; }
+.icon-fi          { background-position: 0px  -58px; }
+.icon-keep        { background-position: 0px -116px; }
+.icon-jamboard    { background-position: 0px -176px; }
+.icon-news        { background-position: 0px -232px; }
+.icon-forms       { background-position: 0px -290px; }
+.icon-voice       { background-position: 0px -348px; }
+.icon-sheets      { background-position: 0px -406px; }
+.icon-contacts    { background-position: 0px -464px; }
+.icon-mail        { background-position: 0px -522px; }
+.icon-finance     { background-position: 0px -580px; }
+.icon-classroom   { background-position: 0px -638px; }
+.icon-tasks       { background-position: 0px -696px; }
+.icon-vault       { background-position: 0px -754px; }
+.icon-search      { background-position: 0px -812px; }
+.icon-passwords   { background-position: 0px -870px; }
+.icon-one         { background-position: 0px -928px; }
+.icon-translate   { background-position: 0px -986px; }
+.icon-travel      { background-position: 0px -1044px; }
+.icon-youtube     { background-position: 0px -1102px; }
+.icon-merchant    { background-position: 0px -1160px; }
+.icon-saved       { background-position: 0px -1218px; }
+.icon-store       { background-position: 0px -1275px; }
+.icon-calendar    { background-position: 0px -1333px; }
+.icon-books       { background-position: 0px -1392px; }
+.icon-arts        { background-position: 0px -1450px; }
+.icon-cloudsearch { background-position: 0px -1508px; }
+.icon-admin       { background-position: 0px -1566px; }
+.icon-earth       { background-position: 0px -1624px; }
+.icon-photos      { background-position: 0px -1682px; }
+.icon-wallet      { background-position: 0px -1740px; }
+.icon-play        { background-position: 0px -1798px; }
+.icon-meet        { background-position: 0px -1856px; }
+.icon-gemini      { background-position: 0px -1914px; }
+.icon-adcenter    { background-position: 0px -1972px; }
+.icon-drive       { background-position: 0px -2030px; }
+.icon-account     { background-position: 0px -2088px; }
+.icon-maps        { background-position: 0px -2146px; }
+.icon-docs        { background-position: 0px -2204px; }
+.icon-slides      { background-position: 0px -2262px; }
+.icon-blogger     { background-position: 0px -2320px; }
+.icon-sites       { background-position: 0px -2378px; }
+.icon-shopping    { background-position: 0px -2436px; }
+.icon-chat        { background-position: 0px -2496px; }
+.icon-chrome      { background-position: 0px -2552px; }
+.icon-ads         { background-position: 0px -2609px; }
+.icon-analytics   { background-position: 0px -2668px; }
+.icon-ytmusic     { background-position: 0px -2726px; }
+.icon-webstore    { background-position: 0px -2784px; }
+.icon-business    { background-position: 0px -2842px; }
+.icon-groups      { background-position: 0px -2901px; }
+.icon-vids        { background-position: 0px -2958px; }

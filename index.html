@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gapps Embed — Embed Google apps anywhere</title>
+<meta name="description" content="A lightweight, themeable toolkit for embedding a Google apps grid on any site. Free, open source, no telemetry, no build step.">
+
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="256x256" href="assets/favicon-256.png">
+
+<style>
+  :root {
+    --navy:        #16273A;
+    --navy-deep:   #0E1B2A;
+    --navy-soft:   #1E3147;
+    --teal:        #1FA9A5;
+    --teal-bright: #3CDCC0;
+    --ink:         #E6EEF5;
+    --ink-mute:    #9BA9B8;
+    --line:        rgba(255,255,255,0.08);
+    --tile:        #1A2C42;
+    --pill-bg:     rgba(60, 220, 192, 0.12);
+    --pill-text:   #3CDCC0;
+    --soon-bg:     rgba(255, 197, 100, 0.12);
+    --soon-text:   #FFD27A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--navy-deep);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--teal-bright); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Header ── */
+  header {
+    background: var(--navy);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  header img {
+    width: 36px;
+    height: 36px;
+  }
+
+  header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+
+  header h1 .by {
+    font-weight: 400;
+    color: var(--ink-mute);
+    font-size: 13px;
+    margin-left: 4px;
+  }
+
+  header .ver {
+    font-size: 11px;
+    background: var(--pill-bg);
+    color: var(--pill-text);
+    padding: 3px 9px;
+    border-radius: 99px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  header nav {
+    margin-left: auto;
+    display: flex;
+    gap: 22px;
+    font-size: 14px;
+  }
+
+  header nav a {
+    color: var(--ink-mute);
+    transition: color 0.15s;
+  }
+
+  header nav a:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 96px 32px 80px;
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(60,220,192,0.10) 0%, rgba(60,220,192,0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero > * { position: relative; z-index: 1; }
+
+  .hero h2 {
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 22px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero h2 strong {
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--teal), var(--teal-bright));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--ink-mute);
+    max-width: 560px;
+    margin: 0 auto 36px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-bright));
+    color: var(--navy-deep);
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(60,220,192,0.18);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(60,220,192,0.3);
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    padding: 13px 28px;
+    border: 1px solid rgba(255,255,255,0.18);
+    color: var(--ink);
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.28);
+    text-decoration: none;
+  }
+
+  /* ── Principles strip ── */
+  .principles {
+    background: var(--navy);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 32px;
+  }
+
+  .principles ul {
+    list-style: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  .principles li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-mute);
+  }
+
+  .principles li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .principles .icon {
+    color: var(--teal-bright);
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* ── Presentations ── */
+  .presentations {
+    padding: 80px 32px;
+  }
+
+  .section-eyebrow {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--teal-bright);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 48px;
+    letter-spacing: -0.01em;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--tile);
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .card:hover {
+    border-color: rgba(60,220,192,0.3);
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 99px;
+    align-self: flex-start;
+  }
+
+  .badge-live { background: var(--pill-bg); color: var(--pill-text); }
+  .badge-soon { background: var(--soon-bg); color: var(--soon-text); }
+
+  .card h4 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--ink-mute);
+    flex: 1;
+  }
+
+  .card-embed {
+    background: var(--navy-deep);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    word-break: break-all;
+    line-height: 1.55;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--teal-bright);
+    margin-top: 2px;
+  }
+
+  .card-link:hover {
+    text-decoration: none;
+    gap: 10px;
+  }
+
+  .card.coming-soon { opacity: 0.7; }
+
+  /* ── Params ── */
+  .params {
+    background: var(--navy);
+    padding: 80px 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .params-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .params > p {
+    text-align: center;
+    color: var(--ink-mute);
+    margin-bottom: 40px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .param-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .param-group {
+    background: var(--tile);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .param-group h5 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal-bright);
+    margin-bottom: 16px;
+  }
+
+  .param-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+
+  .param-row:last-child { margin-bottom: 0; }
+
+  .param-row code {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--navy-deep);
+    padding: 3px 8px;
+    border-radius: 4px;
+    align-self: flex-start;
+  }
+
+  .param-row span {
+    font-size: 13px;
+    color: var(--ink-mute);
+  }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--navy-deep);
+    border-top: 1px solid var(--line);
+    padding: 36px 32px 28px;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--ink-mute);
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-brand img {
+    width: 28px;
+    height: 28px;
+    opacity: 0.85;
+  }
+
+  .footer-brand a {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  footer nav {
+    display: flex;
+    gap: 22px;
+  }
+
+  footer nav a { color: var(--ink-mute); }
+  footer nav a:hover { color: var(--ink); text-decoration: none; }
+
+  .footer-bottom {
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 12px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    header { padding: 12px 18px; flex-wrap: wrap; }
+    header nav { width: 100%; margin: 0; gap: 16px; }
+    .hero { padding: 60px 18px 56px; }
+    .hero h2 { font-size: 32px; }
+    .hero p { font-size: 16px; }
+    .presentations, .params, footer { padding-left: 18px; padding-right: 18px; }
+    .section-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="assets/favicon-128.png" alt="ShadoLogiq Labs">
+  <h1>Gapps Embed <span class="by">by ShadoLogiq Labs</span></h1>
+  <span class="ver">v1.0.0</span>
+  <nav>
+    <a href="gapps-launcher.html">Demo</a>
+    <a href="gapps-builder.html">Builder</a>
+    <a href="https://github.com/shadologiq-labs/gapps-embed">GitHub</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Embed <strong>Google apps</strong> anywhere.</h2>
+  <p>A lightweight, themeable toolkit for embedding a Google apps grid on any website — no build step, one iframe, zero tracking.</p>
+  <div class="hero-actions">
+    <a href="gapps-launcher.html" class="btn-primary">Try the launcher →</a>
+    <a href="gapps-builder.html" class="btn-secondary">Build your embed</a>
+    <a href="https://github.com/shadologiq-labs/gapps-embed" class="btn-secondary">View on GitHub</a>
+  </div>
+</section>
+
+<section class="principles">
+  <ul>
+    <li><span class="icon">⚡</span><span><strong>No build step.</strong> Drop in an iframe and you're done.</span></li>
+    <li><span class="icon">🔓</span><span><strong>Free &amp; libre.</strong> MIT-licensed, zero monetization.</span></li>
+    <li><span class="icon">🖥</span><span><strong>Runs on the client.</strong> No server, no tracking, no telemetry.</span></li>
+    <li><span class="icon">🎨</span><span><strong>Themeable.</strong> Query string or <code style="background:rgba(0,0,0,0.3);padding:1px 6px;border-radius:3px;font-size:12px;color:var(--teal-bright);">postMessage</code>.</span></li>
+  </ul>
+</section>
+
+<section class="presentations">
+  <div class="section-eyebrow">The toolkit</div>
+  <h3 class="section-title">Three presentations</h3>
+  <div class="cards">
+
+    <div class="card">
+      <span class="card-badge badge-live">Live — v1.0.0</span>
+      <h4>Launcher</h4>
+      <p>Plain icon grid, identical in appearance to Google's own app launcher. Drop it into a sidebar or panel.</p>
+      <div class="card-embed">&lt;iframe src="…/gapps-launcher.html"&gt;&lt;/iframe&gt;</div>
+      <a href="gapps-launcher.html" class="card-link">Open launcher →</a>
+    </div>
+
+    <div class="card coming-soon">
+      <span class="card-badge badge-soon">Coming — v1.1.0</span>
+      <h4>Spotlight</h4>
+      <p>Card grid with app name, description, and a "Learn more" link. Styled after Google Workspace's product spotlight.</p>
+      <div class="card-embed">&lt;iframe src="…/gapps-spotlight.html"&gt;&lt;/iframe&gt;</div>
+    </div>
+
+    <div class="card coming-soon">
+      <span class="card-badge badge-soon">Coming — v1.2.0</span>
+      <h4>Menu</h4>
+      <p>A waffle button that opens a Google-style popover panel. Embed as an iframe or inject directly with <code style="font-size:12px;color:var(--teal-bright);">loader.js</code>.</p>
+      <div class="card-embed">&lt;iframe src="…/gapps-menu.html"&gt;&lt;/iframe&gt;</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="params">
+  <div class="params-inner">
+    <div class="section-eyebrow">Configuration</div>
+    <h3 class="section-title">Query-string options</h3>
+    <p>All three presentations share the same parameters. Theme it, filter it, and point it at your Workspace domain.</p>
+
+    <div class="param-grid">
+
+      <div class="param-group">
+        <h5>Filter</h5>
+        <div class="param-row">
+          <code>?apps=mail,drive,docs</code>
+          <span>Show specific apps in that order</span>
+        </div>
+        <div class="param-row">
+          <code>?category=communication</code>
+          <span>Show apps in one or more categories</span>
+        </div>
+        <div class="param-row">
+          <code>?filter=workspace</code>
+          <span>Show only workspace-tagged apps</span>
+        </div>
+      </div>
+
+      <div class="param-group">
+        <h5>Auth</h5>
+        <div class="param-row">
+          <code>?domain=example.com</code>
+          <span>Rewrite URLs for your Workspace domain</span>
+        </div>
+        <div class="param-row">
+          <code>?custom=mail,calendar</code>
+          <span>Use https://app.domain/ for these apps</span>
+        </div>
+      </div>
+
+      <div class="param-group">
+        <h5>Theme</h5>
+        <div class="param-row">
+          <code>?tile=%23ffffff</code>
+          <span>Tile background color</span>
+        </div>
+        <div class="param-row">
+          <code>?text=%23202124</code>
+          <span>Label text color</span>
+        </div>
+        <div class="param-row">
+          <code>?hover=%23f1f3f4</code>
+          <span>Hover state background</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/sll_spark_service_mark.png" alt="">
+      <span>A <a href="https://github.com/shadologiq-labs">ShadoLogiq Labs</a> project</span>
+    </div>
+    <nav>
+      <a href="gapps-launcher.html">Launcher</a>
+      <a href="gapps-builder.html">Builder</a>
+      <a href="https://github.com/shadologiq-labs/gapps-embed">GitHub</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    MIT-licensed · Free, libre, and local · <a href="https://github.com/shadologiq-labs/gapps-embed">shadologiq-labs/gapps-embed</a>
+  </div>
+</footer>
+
+</body>
+</html>

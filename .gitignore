@@ -1,0 +1,29 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Build output / artifacts
+build/
+dist/
+coverage/
+
+# Environment & secrets
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+
+# AI tooling / internal artifacts
+.claude/
+!.claude/settings.json
+!.claude/agents/
+!.claude/commands/
+
+# Ad-hoc local test file
+local.html

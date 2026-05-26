@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>App Launcher</title>
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="stylesheet" href="src/sprite.css">
+<style>
+  :root {
+    --tile-bg: transparent;
+    --label-color: #3c4043;
+    --hover-bg: #f1f3f4;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: transparent;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--item-width), 1fr));
+    gap: 15px;
+    padding: 15px;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    text-align: center;
+    --item-width: 100px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .app-item {
+    text-decoration: none;
+    color: var(--label-color);
+    background-color: var(--tile-bg);
+    padding: 12px 5px;
+    border-radius: 8px;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .app-item:hover {
+    background-color: var(--hover-bg);
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    transform: translateY(-1px);
+  }
+
+  .app-item:active {
+    background-color: color-mix(in srgb, var(--hover-bg) 96%, #000);
+    transition: background 0.05s, box-shadow 0.05s, transform 0.05s;
+    transform: translateY(0);
+  }
+
+  .app-item:focus {
+    outline: 2px solid #1f73e6;
+    outline-offset: 2px;
+  }
+
+  .app-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .app-item:focus-visible {
+    outline: 2px solid #1f73e6;
+    outline-offset: 2px;
+  }
+
+  .app-name {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .app-grid {
+      --item-width: 90px;
+      gap: 12px;
+      padding: 12px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .app-grid {
+      --item-width: 75px;
+      gap: 8px;
+      padding: 10px;
+    }
+    .app-item {
+      padding: 8px 4px;
+      min-height: 80px;
+    }
+    .sprite-icon {
+      transform: scale(0.7);
+      margin-bottom: -5px;
+      margin-top: -5px;
+    }
+    .app-name {
+      font-size: 11px;
+      word-wrap: break-word;
+    }
+  }
+</style>
+<script src="src/apps.js"></script>
+<script src="src/filter.js"></script>
+<script src="src/theme.js"></script>
+</head>
+<body>
+<div id="grid"></div>
+<script>
+  const { apps } = GAPPS.filter(location.search);
+  const grid = document.getElementById('grid');
+  grid.className = 'app-grid';
+  for (const a of apps) {
+    const el = document.createElement('a');
+    el.className = 'app-item';
+    el.target = '_blank';
+    el.rel = 'noopener noreferrer';
+    el.dataset.key = a.key;
+    el.dataset.continue = a.url;
+    if (a.shortcutHost) el.dataset.shortcutHost = a.shortcutHost;
+    el.href = a.url;
+    el.innerHTML = `<div class="sprite-icon icon-${a.key}"></div>
+                    <div class="app-name">${a.name}</div>`;
+    grid.appendChild(el);
+  }
+  GAPPS.theme.applyDomainRewrites('#grid .app-item');
+  GAPPS.theme.applyQueryColors();
+  GAPPS.theme.startPostMessageListeners();
+</script>
+</body>
+</html>

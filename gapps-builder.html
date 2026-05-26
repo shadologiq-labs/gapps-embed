@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gapps Embed — URL Builder</title>
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    color: #202124;
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid #e8eaed;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    background: #fff;
+    z-index: 10;
+  }
+
+  header a.wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  header img {
+    width: 28px;
+    height: 28px;
+  }
+
+  header h1 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #202124;
+  }
+
+  header .badge {
+    font-size: 11px;
+    background: #e8f0fe;
+    color: #1f73e6;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  header .page-title {
+    font-size: 13px;
+    color: #5f6368;
+    padding-left: 14px;
+    margin-left: 4px;
+    border-left: 1px solid #e8eaed;
+  }
+
+  header .spacer { flex: 1; }
+
+  header .header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* ── App shell ── */
+  .shell {
+    display: flex;
+    height: calc(100vh - 56px);
+    overflow: hidden;
+  }
+
+  /* ── Sidebar (controls) ── */
+  .sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    border-right: 1px solid #e8eaed;
+    overflow-y: auto;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-section {
+    padding: 18px 20px;
+    border-bottom: 1px solid #e8eaed;
+  }
+
+  .sidebar-section:last-child {
+    border-bottom: none;
+  }
+
+  .sidebar-section h3 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #5f6368;
+    margin-bottom: 14px;
+  }
+
+  .field {
+    margin-bottom: 12px;
+  }
+
+  .field:last-child { margin-bottom: 0; }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #202124;
+    margin-bottom: 4px;
+  }
+
+  .field label .hint {
+    font-weight: 400;
+    color: #80868b;
+    font-size: 12px;
+  }
+
+  .field select,
+  .field input[type="text"] {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    color: #202124;
+    background: #fff;
+    transition: border-color 0.15s;
+  }
+
+  .field select:focus,
+  .field input[type="text"]:focus {
+    outline: none;
+    border-color: #1f73e6;
+    box-shadow: 0 0 0 2px rgba(31,115,230,0.12);
+  }
+
+  .field small {
+    display: block;
+    font-size: 11px;
+    color: #80868b;
+    margin-top: 3px;
+  }
+
+  /* Color row */
+  .color-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .color-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #5f6368;
+    margin-bottom: 4px;
+  }
+
+  .color-swatch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s;
+  }
+
+  .color-swatch:hover { border-color: #adb5bd; }
+
+  .color-swatch input[type="color"] {
+    width: 18px;
+    height: 18px;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .color-swatch span {
+    font-size: 11px;
+    font-family: 'Menlo', 'Consolas', monospace;
+    color: #5f6368;
+    white-space: nowrap;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 18px;
+    background: #1f73e6;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover { background: #1765cc; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 18px;
+    border: 1px solid #dadce0;
+    color: #3c4043;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .btn-secondary:hover { background: #f8f9fa; }
+
+  .action-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ── Resize handle ── */
+  .resize-handle {
+    width: 5px;
+    flex-shrink: 0;
+    background: #e8eaed;
+    cursor: col-resize;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .resize-handle:hover,
+  .resize-handle.dragging {
+    background: #1f73e6;
+  }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+    overflow: hidden;
+  }
+
+  .preview-toolbar {
+    height: 44px;
+    background: #fff;
+    border-bottom: 1px solid #e8eaed;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .preview-url {
+    flex: 1;
+    background: #f8f9fa;
+    border: 1px solid #e8eaed;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 11px;
+    color: #5f6368;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+    user-select: all;
+  }
+
+  .preview-pane iframe {
+    flex: 1;
+    border: none;
+    width: 100%;
+    background: #fff;
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #202124;
+    color: #fff;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.18s, transform 0.18s;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+<script src="src/apps.js"></script>
+<script src="src/filter.js"></script>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="wordmark">
+    <img src="assets/favicon-48.png" alt="">
+    <h1>Gapps Embed</h1>
+    <span class="badge">v1.0.0</span>
+  </a>
+  <span class="page-title">URL Builder</span>
+  <div class="spacer"></div>
+  <div class="header-actions">
+    <button class="btn-secondary" onclick="resetForm()">Reset</button>
+    <button class="btn-primary" onclick="copyURL()">Copy URL</button>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- Sidebar: Controls -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <h3>Filter</h3>
+      <div class="field">
+        <label for="filter">Tag or category</label>
+        <select id="filter">
+          <option value="">All apps</option>
+          <option value="gmail">Personal Gmail</option>
+          <option value="ws-legacy">Workspace Legacy</option>
+          <option value="ws-starter">Workspace Starter</option>
+          <option value="ws-standard">Workspace Standard</option>
+          <option value="ws-plus">Workspace Plus</option>
+          <option value="ws-enterprise">Workspace Enterprise</option>
+          <option value="ws-education">Workspace Education</option>
+          <option value="ws-essentials">Workspace Essentials</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="apps">Specific apps <span class="hint">— overrides filter</span></label>
+        <input type="text" id="apps" placeholder="mail, docs, sheets">
+        <small>Comma-separated keys, shown in order</small>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Domain</h3>
+      <div class="field">
+        <label for="domain">Workspace domain</label>
+        <input type="text" id="domain" placeholder="example.com">
+        <small>Rewrites URLs to AccountChooser</small>
+      </div>
+      <div class="field">
+        <label for="custom">Custom subdomain apps</label>
+        <input type="text" id="custom" placeholder="mail, calendar, drive">
+        <small>Uses https://app.domain/ instead</small>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Colors</h3>
+      <div class="color-row">
+        <div class="color-field">
+          <label>Tile</label>
+          <div class="color-swatch">
+            <input type="color" id="tile" value="#ffffff">
+            <span id="tile-hex">#ffffff</span>
+          </div>
+        </div>
+        <div class="color-field">
+          <label>Text</label>
+          <div class="color-swatch">
+            <input type="color" id="text" value="#3c4043">
+            <span id="text-hex">#3c4043</span>
+          </div>
+        </div>
+        <div class="color-field">
+          <label>Hover</label>
+          <div class="color-swatch">
+            <input type="color" id="hover" value="#f1f3f4">
+            <span id="hover-hex">#f1f3f4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Resize handle -->
+  <div class="resize-handle" id="resize-handle"></div>
+
+  <!-- Preview pane -->
+  <div class="preview-pane">
+    <div class="preview-toolbar">
+      <div class="preview-url" id="preview-url">gapps-launcher.html</div>
+    </div>
+    <iframe id="preview" src="gapps-launcher.html"></iframe>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const BASE = 'gapps-launcher.html';
+
+  function buildURL() {
+    const params = new URLSearchParams();
+
+    const filter = document.getElementById('filter').value;
+    if (filter) params.set('filter', filter);
+
+    const apps = document.getElementById('apps').value.trim();
+    if (apps) {
+      const list = apps.split(',').map(a => a.trim().toLowerCase()).filter(a => /^[a-z0-9-]+$/.test(a)).join(',');
+      if (list) params.set('apps', list);
+    }
+
+    const domain = document.getElementById('domain').value.trim().toLowerCase();
+    if (domain) {
+      const DOMAIN_RE = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;
+      if (DOMAIN_RE.test(domain)) params.set('domain', domain);
+    }
+
+    const custom = document.getElementById('custom').value.trim();
+    if (custom) {
+      const list = custom.split(',').map(a => a.trim().toLowerCase()).filter(a => /^[a-z0-9-]+$/.test(a)).join(',');
+      if (list) params.set('custom', list);
+    }
+
+    const tile = document.getElementById('tile').value;
+    if (tile !== '#ffffff') params.set('tile', tile.slice(1));
+
+    const text = document.getElementById('text').value;
+    if (text !== '#3c4043') params.set('text', text.slice(1));
+
+    const hover = document.getElementById('hover').value;
+    if (hover !== '#f1f3f4') params.set('hover', hover.slice(1));
+
+    return BASE + (params.toString() ? '?' + params.toString() : '');
+  }
+
+  function update() {
+    const url = buildURL();
+    document.getElementById('preview-url').textContent = url;
+    document.getElementById('preview').src = url;
+  }
+
+  function copyURL() {
+    const url = buildURL();
+    const base = window.location.origin + window.location.pathname.replace(/\/[^/]+$/, '/');
+    navigator.clipboard.writeText(base + url)
+      .then(() => showToast('URL copied to clipboard'))
+      .catch(() => showToast('Copy failed'));
+  }
+
+  function resetForm() {
+    document.getElementById('filter').value = '';
+    document.getElementById('apps').value = '';
+    document.getElementById('domain').value = '';
+    document.getElementById('custom').value = '';
+    document.getElementById('tile').value = '#ffffff';
+    document.getElementById('text').value = '#3c4043';
+    document.getElementById('hover').value = '#f1f3f4';
+    syncHex();
+    update();
+  }
+
+  function syncHex() {
+    ['tile', 'text', 'hover'].forEach(id => {
+      document.getElementById(id + '-hex').textContent = document.getElementById(id).value;
+    });
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Resizable sidebar
+  (function () {
+    const handle = document.getElementById('resize-handle');
+    const sidebar = document.querySelector('.sidebar');
+    const shell = document.querySelector('.shell');
+    let dragging = false;
+    let startX, startWidth;
+
+    handle.addEventListener('mousedown', e => {
+      dragging = true;
+      startX = e.clientX;
+      startWidth = sidebar.offsetWidth;
+      handle.classList.add('dragging');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+      // Cover iframe to prevent it stealing mouse events
+      document.getElementById('preview').style.pointerEvents = 'none';
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const delta = e.clientX - startX;
+      const newWidth = Math.min(Math.max(220, startWidth + delta), shell.offsetWidth - 300);
+      sidebar.style.width = newWidth + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      handle.classList.remove('dragging');
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.getElementById('preview').style.pointerEvents = '';
+    });
+  })();
+
+  ['filter', 'apps', 'domain', 'custom'].forEach(id => {
+    document.getElementById(id).addEventListener('input', update);
+    document.getElementById(id).addEventListener('change', update);
+  });
+
+  ['tile', 'text', 'hover'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { syncHex(); update(); });
+  });
+
+  update();
+</script>
+
+</body>
+</html>

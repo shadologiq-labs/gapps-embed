@@ -1,0 +1,19 @@
+# Normalize all text files to LF in the repo. Git will not convert on
+# checkout/commit, so the CRLF warning disappears for every collaborator
+# regardless of their local core.autocrlf setting.
+* text=auto eol=lf
+
+# Binary assets — never touch, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
