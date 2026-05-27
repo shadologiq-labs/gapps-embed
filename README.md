@@ -1,3 +1,7 @@
+[✦ ShadoLogiq Labs](https://shadologiq.com) · [Gapps Embed](https://shadologiq.com/gapps-embed/) · **README** · [Source](https://github.com/shadologiq-labs/gapps-embed)
+
+---
+
 > 👉 **Looking for docs, demo, or install instructions?** Visit **[shadologiq.com/gapps-embed](https://shadologiq.com/gapps-embed/)** — the polished page with a live themed demo, interactive builder, and a 3-step install guide.
 >
 > This README is for contributors and self-hosters. If you just want to *use* Gapps Embed, the link above is the friendlier path.
@@ -169,3 +173,7 @@ MIT — see [LICENSE](LICENSE).
 A [ShadoLogiq Labs](https://shadologiq.com) project — free, libre, and local.
 
 </div>
+
+---
+
+[✦ ShadoLogiq Labs](https://shadologiq.com) · [Gapps Embed](https://shadologiq.com/gapps-embed/) · **README** · [Source](https://github.com/shadologiq-labs/gapps-embed)
