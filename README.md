@@ -1,8 +1,8 @@
-[✦ ShadoLogiq Labs](https://shadologiq.com) · [Gapps Embed](https://shadologiq.com/gapps-embed/) · **README** · [Source](https://github.com/shadologiq-labs/gapps-embed)
+[✦ ShadoLogiq Labs](https://shadologiq.com) · [Gapps Embed](https://gapps-embed.shadologiq.com/) · **README** · [Source](https://github.com/shadologiq-labs/gapps-embed)
 
 ---
 
-> 👉 **Looking for docs, demo, or install instructions?** Visit **[shadologiq.com/gapps-embed](https://shadologiq.com/gapps-embed/)** — the polished page with a live themed demo, interactive builder, and a 3-step install guide.
+> 👉 **Looking for docs, demo, or install instructions?** Visit **[gapps-embed.shadologiq.com](https://gapps-embed.shadologiq.com/)** — the polished page with a live themed demo, interactive builder, and a 3-step install guide.
 >
 > This README is for contributors and self-hosters. If you just want to *use* Gapps Embed, the link above is the friendlier path.
 
@@ -17,7 +17,7 @@
 
 **Embed Google apps anywhere. One iframe. No build step. No tracking.**
 
-[Live demo](https://shadologiq.com/gapps-embed/) · [Quick start](#quick-start) · [Configuration](#configuration-via-query-string)
+[Live demo](https://gapps-embed.shadologiq.com/) · [Quick start](#quick-start) · [Configuration](#configuration-via-query-string)
 
 </div>
 
@@ -38,7 +38,7 @@ Static HTML + JavaScript. No accounts. No analytics. No server-side anything.
 ## Quick start
 
 ```html
-<iframe src="https://shadologiq.com/gapps-embed/gapps-launcher.html"
+<iframe src="https://gapps-embed.shadologiq.com/gapps-launcher.html"
         style="border: none; width: 100%; height: 600px;"></iframe>
 ```
 
@@ -176,4 +176,4 @@ A [ShadoLogiq Labs](https://shadologiq.com) project — free, libre, and local.
 
 ---
 
-[✦ ShadoLogiq Labs](https://shadologiq.com) · [Gapps Embed](https://shadologiq.com/gapps-embed/) · **README** · [Source](https://github.com/shadologiq-labs/gapps-embed)
+[✦ ShadoLogiq Labs](https://shadologiq.com) · [Gapps Embed](https://gapps-embed.shadologiq.com/) · **README** · [Source](https://github.com/shadologiq-labs/gapps-embed)
