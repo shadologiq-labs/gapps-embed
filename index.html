@@ -184,15 +184,18 @@
     position: relative;
   }
 
+  /* Brand flare — subtle echo of the homepage's ignition flare.
+     No animation here; project pages get ambient brand presence, not ceremony. */
   .hero::before {
     content: '';
     position: absolute;
     top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 320px;
-    height: 320px;
-    background: radial-gradient(circle, rgba(60,220,192,0.10) 0%, rgba(60,220,192,0) 70%);
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(60,220,192,1) 0%, rgba(60,220,192,0) 70%);
+    opacity: 0.13;
     pointer-events: none;
     z-index: 0;
   }
