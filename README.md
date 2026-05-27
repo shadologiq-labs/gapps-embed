@@ -9,7 +9,7 @@
 
 **Embed Google apps anywhere. One iframe. No build step. No tracking.**
 
-[Live demo](https://shadologiq-labs.github.io/gapps-embed/) · [Quick start](#quick-start) · [Configuration](#configuration-via-query-string)
+[Live demo](https://shadologiq.com/gapps-embed/) · [Quick start](#quick-start) · [Configuration](#configuration-via-query-string)
 
 </div>
 
@@ -30,7 +30,7 @@ Static HTML + JavaScript. No accounts. No analytics. No server-side anything.
 ## Quick start
 
 ```html
-<iframe src="https://shadologiq-labs.github.io/gapps-embed/gapps-launcher.html"
+<iframe src="https://shadologiq.com/gapps-embed/gapps-launcher.html"
         style="border: none; width: 100%; height: 600px;"></iframe>
 ```
 
