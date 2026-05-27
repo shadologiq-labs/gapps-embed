@@ -1,3 +1,7 @@
+> 👉 **Looking for docs, demo, or install instructions?** Visit **[shadologiq.com/gapps-embed](https://shadologiq.com/gapps-embed/)** — the polished page with a live themed demo, interactive builder, and a 3-step install guide.
+>
+> This README is for contributors and self-hosters. If you just want to *use* Gapps Embed, the link above is the friendlier path.
+
 <div align="center">
 
 <picture>
