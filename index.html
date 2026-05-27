@@ -55,7 +55,10 @@
   }
   .brand-chip:focus-visible,
   .btn-primary:focus-visible,
-  .btn-secondary:focus-visible,
+  .btn-secondary:focus-visible {
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
   .theme-btn:focus-visible {
     outline-offset: 2px;
     border-radius: 999px;
@@ -720,7 +723,6 @@
 
   .card-link:hover {
     text-decoration: none;
-    gap: 10px;
   }
 
   .card.coming-soon { opacity: 0.7; }
@@ -867,7 +869,7 @@
     <a href="gapps-launcher.html">Demo</a>
     <a href="gapps-builder.html">Builder</a>
     <a href="#install">Install</a>
-    <a href="https://github.com/shadologiq-labs/gapps-embed">Source</a>
+    <a href="https://github.com/shadologiq-labs/gapps-embed">GitHub</a>
   </nav>
 </header>
 
@@ -875,7 +877,7 @@
   <h2>Embed <strong>Google apps</strong> anywhere.</h2>
   <p>A lightweight, themeable toolkit for embedding a Google apps grid on any website — no build step, one iframe, zero tracking.</p>
   <div class="hero-actions">
-    <a href="gapps-launcher.html" class="btn-primary">Try the launcher →</a>
+    <a href="gapps-launcher.html" class="btn-primary">Try the launcher</a>
     <a href="gapps-builder.html" class="btn-secondary">Build your embed</a>
     <a href="#install" class="btn-secondary">Install in 3 steps</a>
   </div>
@@ -896,7 +898,7 @@
   <p class="demo-lede">This isn't a screenshot. The grid below is an actual <code>&lt;iframe&gt;</code> running the launcher with three query-string params — <code>tile</code>, <code>text</code>, and <code>hover</code> — set to the colors of this site. Hover an icon.</p>
 
   <div class="theme-switcher" role="group" aria-label="Theme presets">
-    <span class="theme-switcher-label">Re-theme live →</span>
+    <span class="theme-switcher-label">Re-theme live</span>
     <button type="button" class="theme-btn is-active" data-theme="shadologiq"
             data-tile="#1E3147" data-text="#3CDCC0" data-hover="#3CDCC0" data-hover-text="#0E1B2A">
       <span class="swatch" style="background:linear-gradient(135deg,#1A2C42 0%,#1A2C42 50%,#3CDCC0 50%,#3CDCC0 100%);border-color:#3CDCC0"></span>
@@ -1017,7 +1019,7 @@ iframe.contentWindow.postMessage({
     </ol>
 
     <p class="install-foot">
-      That's it. <a href="gapps-builder.html">Open the Builder →</a> to get started, or
+      That's it. <a href="gapps-builder.html">Open the Builder</a> to get started, or
       <a href="https://github.com/shadologiq-labs/gapps-embed" class="muted-link">read the source on GitHub</a>
       if you'd rather self-host.
     </p>
@@ -1034,7 +1036,7 @@ iframe.contentWindow.postMessage({
       <h4>Launcher</h4>
       <p>Plain icon grid, identical in appearance to Google's own app launcher. Drop it into a sidebar or panel.</p>
       <div class="card-embed">&lt;iframe src="…/gapps-launcher.html"&gt;&lt;/iframe&gt;</div>
-      <a href="gapps-launcher.html" class="card-link">Open launcher →</a>
+      <a href="gapps-launcher.html" class="card-link">Open launcher</a>
     </div>
 
     <div class="card coming-soon">
