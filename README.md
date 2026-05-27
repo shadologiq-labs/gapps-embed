@@ -61,9 +61,10 @@ All presentations honor the same parameters.
 |---|---|---|
 | `tile` | `?tile=%23ffffff` | Tile background color |
 | `text` | `?text=%23202124` | Label text color |
+| `texthover` | `?texthover=%230E1B2A` | Label text color *on hover* — set when your hover background contrasts with the rest state (e.g., a "spark flip" theme that ignites the tile) |
 | `hover` | `?hover=%23f1f3f4` | Hover state background |
 
-Colors are URL-encoded hex (e.g., `#1FA9A5` → `%231FA9A5`). Hover is auto-derived from `tile` if you don't set it.
+Colors are URL-encoded hex (e.g., `#1FA9A5` → `%231FA9A5`). `hover` is auto-derived from `tile` if you don't set it. `texthover` defaults to `text` if omitted (the label stays the same color on hover).
 
 ## Theming via postMessage
 
@@ -72,11 +73,14 @@ Update the theme dynamically from the parent page:
 ```js
 iframe.contentWindow.postMessage({
   type: 'gapps-embed-theme',
-  tileBg: '#ffffff',
-  hoverBg: '#f1f3f4',
-  textColor: '#202124'
+  tileBg:         '#ffffff',
+  hoverBg:        '#f1f3f4',
+  textColor:      '#202124',
+  textColorHover: '#202124'  // optional — defaults to textColor if omitted
 }, '*');
 ```
+
+Use `textColorHover` when the hover background contrasts strongly with the rest tile and the label needs to flip color to stay readable (e.g., dark label at rest on a muted tile, light label on hover when the tile lights up — or the reverse "spark flip" pattern).
 
 The iframe reports its rendered height back so you can size it correctly:
 
@@ -158,6 +162,6 @@ MIT — see [LICENSE](LICENSE).
 
 <img src="assets/sll_spark_service_mark.png" alt="" width="60">
 
-A [ShadoLogiq Labs](https://github.com/shadologiq-labs) project — free, libre, and local.
+A [ShadoLogiq Labs](https://shadologiq.com) project — free, libre, and local.
 
 </div>

@@ -6,7 +6,10 @@
   const explicitVars = new Set();
 
   function setColorVar(name, raw, lock) {
-    if (lockedVars.has(name)) return false;
+    // Locked vars resist passive defaults but yield to explicit parent overrides.
+    // `lock=true` (query-string init) skips already-locked names; `lock=false`
+    // (postMessage from parent) is always honored — the parent gets the final say.
+    if (lock && lockedVars.has(name)) return false;
     let color = (raw || '').trim();
     if (!color) return false;
     // Add # if missing (from query string params)
@@ -54,9 +57,10 @@
 
   window.GAPPS.theme.applyQueryColors = function () {
     const params = new URLSearchParams(window.location.search);
-    setColorVar('--hover-bg',    params.get('hover'), true);
-    setColorVar('--label-color', params.get('text'),  true);
-    setColorVar('--tile-bg',     params.get('tile'),  true);
+    setColorVar('--hover-bg',          params.get('hover'),     true);
+    setColorVar('--label-color',       params.get('text'),      true);
+    setColorVar('--label-color-hover', params.get('texthover'), true);
+    setColorVar('--tile-bg',           params.get('tile'),      true);
     deriveHover();
   };
 
@@ -107,6 +111,10 @@
       setColorVar('--tile-bg',     d.tileBg,    false);
       setColorVar('--hover-bg',    d.hoverBg,   false);
       setColorVar('--label-color', d.textColor, false);
+      // If parent omits textColorHover, mirror textColor so the label stays
+      // the same on hover (default Material-style behavior).
+      setColorVar('--label-color-hover',
+                  d.textColorHover || d.textColor, false);
     });
   };
 })();

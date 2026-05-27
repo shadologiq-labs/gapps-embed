@@ -45,15 +45,43 @@
   header {
     background: var(--navy);
     border-bottom: 1px solid var(--line);
-    padding: 14px 32px;
+    padding: 0 32px;
+    height: 64px;
     display: flex;
     align-items: center;
     gap: 14px;
   }
 
-  header img {
-    width: 36px;
-    height: 36px;
+  header .brand-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 4px 8px;
+    margin-left: -8px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+
+  header .brand-chip:hover {
+    background: rgba(255,255,255,0.04);
+    text-decoration: none;
+  }
+
+  header .brand-chip img { width: 28px; height: 28px; }
+
+  header .brand-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  header .crumb-sep {
+    color: var(--ink-mute);
+    font-size: 18px;
+    font-weight: 300;
+    margin: 0 4px;
   }
 
   header h1 {
@@ -223,6 +251,155 @@
     line-height: 1;
     flex-shrink: 0;
   }
+
+  /* ── Live demo ── */
+  .live-demo {
+    padding: 80px 32px 24px;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .demo-lede {
+    color: var(--ink-mute);
+    font-size: 16px;
+    max-width: 640px;
+    margin: 0 auto 36px;
+  }
+
+  .demo-lede code {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--teal-bright);
+    background: rgba(0,0,0,0.3);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  .theme-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .theme-switcher-label {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-right: 4px;
+  }
+
+  .theme-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--tile);
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+
+  .theme-btn:hover {
+    border-color: rgba(60,220,192,0.4);
+    background: var(--navy-soft);
+  }
+
+  .theme-btn.is-active {
+    border-color: var(--teal-bright);
+    box-shadow: 0 0 0 3px rgba(60,220,192,0.12);
+  }
+
+  .theme-btn:active { transform: scale(0.97); }
+
+  .theme-btn .swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 99px;
+    border: 1px solid;
+    flex-shrink: 0;
+  }
+
+  .demo-frame {
+    background: var(--navy);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(60,220,192,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .demo-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top, rgba(60,220,192,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .demo-frame iframe {
+    border: none;
+    width: 100%;
+    height: 320px;
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+
+  .demo-source {
+    margin-top: 18px;
+    text-align: left;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .demo-source summary {
+    color: var(--teal-bright);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 0;
+    list-style: none;
+    text-align: center;
+  }
+
+  .demo-source summary::-webkit-details-marker { display: none; }
+
+  .demo-source summary::before {
+    content: '▸ ';
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+
+  .demo-source[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .demo-source pre {
+    background: var(--navy-deep);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-top: 10px;
+    overflow-x: auto;
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .demo-source .hl-comment { color: var(--ink-mute); font-style: italic; }
+  .demo-source .hl-str     { color: var(--teal-bright); }
 
   /* ── Presentations ── */
   .presentations {
@@ -397,63 +574,40 @@
   footer {
     background: var(--navy-deep);
     border-top: 1px solid var(--line);
-    padding: 36px 32px 28px;
+    padding: 40px 32px 32px;
+    text-align: center;
   }
 
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
+  .footer-tagline {
     font-size: 13px;
     color: var(--ink-mute);
+    margin-bottom: 4px;
   }
 
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .footer-brand img {
-    width: 28px;
-    height: 28px;
-    opacity: 0.85;
-  }
-
-  .footer-brand a {
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  footer nav {
-    display: flex;
-    gap: 22px;
-  }
-
-  footer nav a { color: var(--ink-mute); }
-  footer nav a:hover { color: var(--ink); text-decoration: none; }
-
-  .footer-bottom {
-    text-align: center;
-    color: var(--ink-mute);
+  .footer-repo {
     font-size: 12px;
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid var(--line);
+    font-family: 'Menlo', 'Consolas', monospace;
+  }
+
+  .footer-repo a {
+    color: var(--ink-mute);
+    transition: color 0.15s;
+  }
+
+  .footer-repo a:hover {
+    color: var(--teal-bright);
+    text-decoration: none;
   }
 
   /* ── Mobile ── */
   @media (max-width: 640px) {
-    header { padding: 12px 18px; flex-wrap: wrap; }
+    header { height: auto; padding: 12px 18px; flex-wrap: wrap; }
     header nav { width: 100%; margin: 0; gap: 16px; }
     .hero { padding: 60px 18px 56px; }
     .hero h2 { font-size: 32px; }
     .hero p { font-size: 16px; }
-    .presentations, .params, footer { padding-left: 18px; padding-right: 18px; }
+    .live-demo, .presentations, .params, footer { padding-left: 18px; padding-right: 18px; }
+    .demo-frame iframe { height: 480px; }
     .section-title { font-size: 26px; }
   }
 </style>
@@ -461,8 +615,12 @@
 <body>
 
 <header>
-  <img src="assets/favicon-128.png" alt="ShadoLogiq Labs">
-  <h1>Gapps Embed <span class="by">by ShadoLogiq Labs</span></h1>
+  <a href="https://shadologiq.com" class="brand-chip" aria-label="ShadoLogiq Labs home">
+    <img src="assets/sll_spark_service_mark.png" alt="">
+    <span class="brand-name">ShadoLogiq Labs</span>
+  </a>
+  <span class="crumb-sep">/</span>
+  <h1>Gapps Embed</h1>
   <span class="ver">v1.0.0</span>
   <nav>
     <a href="gapps-launcher.html">Demo</a>
@@ -489,6 +647,85 @@
     <li><span class="icon">🎨</span><span><strong>Themeable.</strong> Query string or <code style="background:rgba(0,0,0,0.3);padding:1px 6px;border-radius:3px;font-size:12px;color:var(--teal-bright);">postMessage</code>.</span></li>
   </ul>
 </section>
+
+<section class="live-demo">
+  <div class="section-eyebrow">Live, on this page</div>
+  <h3 class="section-title">Themed to blend in.</h3>
+  <p class="demo-lede">This isn't a screenshot. The grid below is an actual <code>&lt;iframe&gt;</code> running the launcher with three query-string params — <code>tile</code>, <code>text</code>, and <code>hover</code> — set to the colors of this site. Hover an icon.</p>
+
+  <div class="theme-switcher" role="group" aria-label="Theme presets">
+    <span class="theme-switcher-label">Re-theme live →</span>
+    <button type="button" class="theme-btn is-active" data-theme="shadologiq"
+            data-tile="#1E3147" data-text="#3CDCC0" data-hover="#3CDCC0" data-hover-text="#0E1B2A">
+      <span class="swatch" style="background:linear-gradient(135deg,#1A2C42 0%,#1A2C42 50%,#3CDCC0 50%,#3CDCC0 100%);border-color:#3CDCC0"></span>
+      ShadoLogiq
+    </button>
+    <button type="button" class="theme-btn" data-theme="google"
+            data-tile="#ffffff" data-text="#3c4043" data-hover="#f1f3f4"
+            data-frame-bg="#ffffff">
+      <span class="swatch" style="background:#ffffff;border-color:#dadce0"></span>
+      Google default
+    </button>
+    <button type="button" class="theme-btn" data-theme="solarized"
+            data-tile="#FDF6E3" data-text="#586E75" data-hover="#EEE8D5">
+      <span class="swatch" style="background:#FDF6E3;border-color:#93A1A1"></span>
+      Solarized
+    </button>
+    <button type="button" class="theme-btn" data-theme="github-dark"
+            data-tile="#0D1117" data-text="#C9D1D9" data-hover="#161B22">
+      <span class="swatch" style="background:#0D1117;border-color:#30363D"></span>
+      GitHub Dark
+    </button>
+  </div>
+
+  <div class="demo-frame">
+    <iframe
+      id="demo-iframe"
+      src="gapps-launcher.html?tile=%231E3147&amp;text=%233CDCC0&amp;hover=%233CDCC0&amp;texthover=%230E1B2A"
+      title="Gapps Embed launcher — themed for ShadoLogiq Labs"
+      loading="lazy"></iframe>
+  </div>
+
+  <details class="demo-source">
+    <summary>See the postMessage code</summary>
+<pre><code><span class="hl-comment">// Re-theme the launcher live — no reload, no query-string rebuild</span>
+iframe.contentWindow.postMessage({
+  type: <span class="hl-str">'gapps-embed-theme'</span>,
+  tileBg:         <span class="hl-str">'#1E3147'</span>,  <span class="hl-comment">// muted navy at rest</span>
+  hoverBg:        <span class="hl-str">'#3CDCC0'</span>,  <span class="hl-comment">// ignite to teal-bright on hover</span>
+  textColor:      <span class="hl-str">'#3CDCC0'</span>,  <span class="hl-comment">// teal label at rest</span>
+  textColorHover: <span class="hl-str">'#0E1B2A'</span>   <span class="hl-comment">// flip to navy-deep on the lit tile</span>
+}, <span class="hl-str">'*'</span>);</code></pre>
+  </details>
+</section>
+
+<script>
+  (function() {
+    var iframe = document.getElementById('demo-iframe');
+    var buttons = document.querySelectorAll('.theme-btn');
+
+    var frame = document.querySelector('.demo-frame');
+
+    function applyTheme(btn) {
+      buttons.forEach(function(b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+
+      frame.style.background = btn.dataset.tile;
+
+      iframe.contentWindow.postMessage({
+        type: 'gapps-embed-theme',
+        tileBg:         btn.dataset.tile,
+        hoverBg:        btn.dataset.hover,
+        textColor:      btn.dataset.text,
+        textColorHover: btn.dataset.hoverText || btn.dataset.text
+      }, '*');
+    }
+
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() { applyTheme(btn); });
+    });
+  })();
+</script>
 
 <section class="presentations">
   <div class="section-eyebrow">The toolkit</div>
@@ -577,20 +814,8 @@
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <img src="assets/sll_spark_service_mark.png" alt="">
-      <span>A <a href="https://github.com/shadologiq-labs">ShadoLogiq Labs</a> project</span>
-    </div>
-    <nav>
-      <a href="gapps-launcher.html">Launcher</a>
-      <a href="gapps-builder.html">Builder</a>
-      <a href="https://github.com/shadologiq-labs/gapps-embed">GitHub</a>
-    </nav>
-  </div>
-  <div class="footer-bottom">
-    MIT-licensed · Free, libre, and local · <a href="https://github.com/shadologiq-labs/gapps-embed">shadologiq-labs/gapps-embed</a>
-  </div>
+  <p class="footer-tagline">MIT-licensed · Free, libre, and local</p>
+  <p class="footer-repo"><a href="https://github.com/shadologiq-labs/gapps-embed">github.com/shadologiq-labs/gapps-embed</a></p>
 </footer>
 
 </body>
