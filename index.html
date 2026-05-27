@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+   ███████ ██   ██  █████  ██████   ██████  ██       ██████   ██████  ██  ██████
+   ██      ██   ██ ██   ██ ██   ██ ██    ██ ██      ██    ██ ██       ██ ██    ██
+   ███████ ███████ ███████ ██   ██ ██    ██ ██      ██    ██ ██   ███ ██ ██    ██
+        ██ ██   ██ ██   ██ ██   ██ ██    ██ ██      ██    ██ ██    ██ ██ ██ ▄▄ ██
+   ███████ ██   ██ ██   ██ ██████   ██████  ███████  ██████   ██████  ██  ██████
+                                                                          ▀▀
+                      L  A  B  S    ·    G  A  P  P  S    E  M  B  E  D
+
+   Reading the source? Good.
+   This is one HTML page, vanilla JS, one PNG sprite. No framework, no build.
+   Drop the iframe on any site, theme it via three URL params, ship.
+   Documentation, the actual source, and contribution guide:
+       github.com/shadologiq-labs/gapps-embed   ·   MIT-licensed
+-->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -29,6 +44,41 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* Universal focus ring — teal, visible only on keyboard focus. */
+  :focus { outline: none; }
+  :focus-visible {
+    outline: 2px solid var(--teal-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+    transition: outline-offset 0.12s ease-out;
+  }
+  .brand-chip:focus-visible,
+  .btn-primary:focus-visible,
+  .btn-secondary:focus-visible,
+  .theme-btn:focus-visible {
+    outline-offset: 2px;
+    border-radius: 999px;
+  }
+  .skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 10px 18px;
+    background: var(--teal-bright);
+    color: var(--navy-deep);
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transform: translateY(-120%);
+    transition: transform 0.18s ease-out;
+    z-index: 100;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: none;
+  }
 
   html, body {
     background: var(--navy-deep);
@@ -334,7 +384,6 @@
     padding: 20px 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(60,220,192,0.05);
     position: relative;
-    overflow: hidden;
     transition: background 0.3s;
   }
 
@@ -344,6 +393,21 @@
     inset: 0;
     background: radial-gradient(ellipse at top, rgba(60,220,192,0.06) 0%, transparent 60%);
     pointer-events: none;
+    border-radius: 14px;
+  }
+
+  /* Spark accent: brand punctuation, leads the eye into the demo */
+  .demo-frame::after {
+    content: '';
+    position: absolute;
+    top: -22px;
+    left: -22px;
+    width: 80px;
+    height: 80px;
+    background: url('assets/sll_spark_service_mark.png') no-repeat center / contain;
+    filter: drop-shadow(0 4px 16px rgba(60,220,192,0.45));
+    pointer-events: none;
+    z-index: 2;
   }
 
   .demo-frame iframe {
@@ -353,6 +417,47 @@
     display: block;
     position: relative;
     z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+  }
+
+  .demo-frame.is-loaded iframe { opacity: 1; }
+
+  .demo-skeleton {
+    position: absolute;
+    inset: 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.4s ease-out;
+  }
+
+  .demo-frame.is-loaded .demo-skeleton { opacity: 0; }
+
+  .demo-skeleton::before {
+    content: '';
+    width: 56px;
+    height: 56px;
+    background: url('assets/sll_spark_service_mark.png') no-repeat center / contain;
+    filter: drop-shadow(0 0 14px rgba(60,220,192,0.5));
+    animation: spark-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes spark-pulse {
+    0%, 100% { opacity: 0.35; transform: scale(0.92); }
+    50%      { opacity: 0.9;  transform: scale(1.05); }
+  }
+
+  /* Reduced-motion respected — decorative transitions off, meaningful ones kept. */
+  @media (prefers-reduced-motion: reduce) {
+    .demo-skeleton::before { animation: none; opacity: 0.55; }
+    .btn-primary, .btn-secondary, .theme-btn, .card, .card-link {
+      transition: none !important;
+    }
+    .btn-primary:hover { transform: none; }
+    .theme-btn:active { transform: none; }
   }
 
   .demo-source {
@@ -599,6 +704,20 @@
     text-decoration: none;
   }
 
+  .footer-stats {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-top: 16px;
+    opacity: 0.7;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-stats .stat-sep { opacity: 0.5; }
+
   /* ── Mobile ── */
   @media (max-width: 640px) {
     header { height: auto; padding: 12px 18px; flex-wrap: wrap; }
@@ -608,11 +727,14 @@
     .hero p { font-size: 16px; }
     .live-demo, .presentations, .params, footer { padding-left: 18px; padding-right: 18px; }
     .demo-frame iframe { height: 480px; }
+    .demo-frame::after { width: 60px; height: 60px; top: -16px; left: -16px; }
     .section-title { font-size: 26px; }
   }
 </style>
 </head>
 <body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header>
   <a href="https://shadologiq.com" class="brand-chip" aria-label="ShadoLogiq Labs home">
@@ -629,7 +751,7 @@
   </nav>
 </header>
 
-<section class="hero">
+<section class="hero" id="main">
   <h2>Embed <strong>Google apps</strong> anywhere.</h2>
   <p>A lightweight, themeable toolkit for embedding a Google apps grid on any website — no build step, one iframe, zero tracking.</p>
   <div class="hero-actions">
@@ -678,12 +800,14 @@
     </button>
   </div>
 
-  <div class="demo-frame">
+  <div class="demo-frame" id="demo-frame">
+    <div class="demo-skeleton" aria-hidden="true"></div>
     <iframe
       id="demo-iframe"
       src="gapps-launcher.html?tile=%231E3147&amp;text=%233CDCC0&amp;hover=%233CDCC0&amp;texthover=%230E1B2A"
       title="Gapps Embed launcher — themed for ShadoLogiq Labs"
-      loading="lazy"></iframe>
+      loading="lazy"
+      onload="document.getElementById('demo-frame').classList.add('is-loaded')"></iframe>
   </div>
 
   <details class="demo-source">
@@ -723,6 +847,18 @@ iframe.contentWindow.postMessage({
 
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() { applyTheme(btn); });
+    });
+
+    // Escape: if a theme button is focused, reset to ShadoLogiq default.
+    // Otherwise blur whatever's focused — clears stuck focus rings.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var active = document.activeElement;
+      var isThemeBtn = active && active.classList && active.classList.contains('theme-btn');
+      if (isThemeBtn) {
+        applyTheme(buttons[0]); // first button = ShadoLogiq default
+      }
+      if (active && active.blur) active.blur();
     });
   })();
 </script>
@@ -816,7 +952,43 @@ iframe.contentWindow.postMessage({
 <footer>
   <p class="footer-tagline">MIT-licensed · Free, libre, and local</p>
   <p class="footer-repo"><a href="https://github.com/shadologiq-labs/gapps-embed">github.com/shadologiq-labs/gapps-embed</a></p>
+  <p class="footer-stats" aria-live="polite">
+    <span class="stat" id="stat-weight">— KB</span>
+    <span class="stat-sep">·</span>
+    <span class="stat" id="stat-requests">— requests</span>
+    <span class="stat-sep">·</span>
+    <span class="stat">0 cookies</span>
+    <span class="stat-sep">·</span>
+    <span class="stat">0 trackers</span>
+  </p>
 </footer>
+
+<script>
+  (function () {
+    function update() {
+      try {
+        var entries = performance.getEntriesByType('resource');
+        var bytes = 0;
+        entries.forEach(function (e) {
+          bytes += e.transferSize || e.encodedBodySize || 0;
+        });
+        var nav = performance.getEntriesByType('navigation')[0];
+        if (nav) bytes += nav.transferSize || nav.encodedBodySize || 0;
+
+        var ownRequests = entries.filter(function (e) {
+          return e.name.indexOf(location.origin) === 0;
+        }).length + 1;
+
+        var w = document.getElementById('stat-weight');
+        var r = document.getElementById('stat-requests');
+        if (w && bytes > 0) w.textContent = (bytes / 1024).toFixed(1) + ' KB';
+        if (r) r.textContent = ownRequests + ' request' + (ownRequests === 1 ? '' : 's');
+      } catch (e) { /* old browser — leave the dashes */ }
+    }
+    if (document.readyState === 'complete') update();
+    else window.addEventListener('load', update);
+  })();
+</script>
 
 </body>
 </html>

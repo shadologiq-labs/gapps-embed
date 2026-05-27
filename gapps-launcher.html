@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html>
+<!--
+   ███████ ██   ██  █████  ██████   ██████  ██       ██████   ██████  ██  ██████
+   ██      ██   ██ ██   ██ ██   ██ ██    ██ ██      ██    ██ ██       ██ ██    ██
+   ███████ ███████ ███████ ██   ██ ██    ██ ██      ██    ██ ██   ███ ██ ██    ██
+        ██ ██   ██ ██   ██ ██   ██ ██    ██ ██      ██    ██ ██    ██ ██ ██ ▄▄ ██
+   ███████ ██   ██ ██   ██ ██████   ██████  ███████  ██████   ██████  ██  ██████
+                                                                          ▀▀
+                  L  A  B  S    ·    G  A  P  P  S    L  A  U  N  C  H  E  R
+
+   Reading the source? Good — you're probably an embedder.
+
+   This is the page you iframe. It runs entirely in your visitor's browser.
+   No server. No phone-home. No third-party requests. No cookies. No analytics.
+   Three query params (tile, text, hover) re-skin it for your site. Optional
+   `texthover` for spark-flip themes. Optional postMessage for live re-theming.
+   Reports its rendered height back to the parent so you can size the iframe.
+
+   ── Drop-in ────────────────────────────────────────────────────────────────
+   <iframe src=".../gapps-launcher.html?apps=mail,drive,docs"
+           style="border:none; width:100%; height:600px;"></iframe>
+
+   ── Live re-theme from the parent ──────────────────────────────────────────
+   iframe.contentWindow.postMessage({
+     type:           'gapps-embed-theme',
+     tileBg:         '#1E3147',
+     textColor:      '#3CDCC0',
+     hoverBg:        '#3CDCC0',
+     textColorHover: '#0E1B2A'   // optional — for spark-flip themes
+   }, '*');
+
+   ── Listen for height changes ──────────────────────────────────────────────
+   window.addEventListener('message', e => {
+     if (e.data.type === 'gapps-embed-height')
+       iframe.style.height = e.data.height + 'px';
+   });
+
+   That's the entire API surface. Full docs, configurator, and source:
+       github.com/shadologiq-labs/gapps-embed   ·   MIT-licensed
+       shadologiq-labs.github.io/gapps-embed/   ·   live site + builder
+
+   Built by ShadoLogiq Labs:  shadologiq.com
+-->
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>App Launcher</title>
+<title>Gapps Embed Launcher · ShadoLogiq Labs</title>
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="stylesheet" href="src/sprite.css">
