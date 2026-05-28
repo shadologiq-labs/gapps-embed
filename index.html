@@ -210,23 +210,63 @@
     position: relative;
   }
 
-  /* Brand flare — subtle echo of the homepage's ignition flare.
-     No animation here; project pages get ambient brand presence, not ceremony. */
+  /* Ignition flare — Gapps Embed just went live, so it gets the launch
+     ceremony: the flare ignites bright on load, then settles to the 0.18
+     residual that subpages otherwise carry statically. When the next product
+     ships, this treatment moves to it and Gapps drops back to static residual. */
   .hero::before {
     content: '';
     position: absolute;
     top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 380px;
-    height: 380px;
+    width: 420px;
+    height: 420px;
     background: radial-gradient(circle, rgba(60,220,192,1) 0%, rgba(60,220,192,0) 70%);
     opacity: 0.18;
     pointer-events: none;
     z-index: 0;
+    animation: flare-ignite 1.6s ease-out 1 both;
+  }
+
+  @keyframes flare-ignite {
+    0%   { opacity: 0;    transform: translateX(-50%) scale(0.7); }
+    35%  { opacity: 0.55; transform: translateX(-50%) scale(1.08); }
+    100% { opacity: 0.18; transform: translateX(-50%) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero::before { animation: none; opacity: 0.18; }
   }
 
   .hero > * { position: relative; z-index: 1; }
+
+  /* Launch status notation — spark + "NOW LIVE" pill, teal (live) colors.
+     Mirrors the SNapp status-row, which uses amber for "coming soon." */
+  .status-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .status-spark {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(0 2px 10px rgba(60,220,192,0.4));
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pill-text);
+    background: var(--pill-bg);
+    padding: 6px 14px;
+    border-radius: 99px;
+  }
 
   .hero h2 {
     font-size: 44px;
@@ -892,6 +932,10 @@
 <div class="content-well" id="content-well">
 
 <section class="hero" id="main">
+  <div class="status-row">
+    <img src="https://shadologiq.com/assets/sll_spark_service_mark.png" alt="" class="status-spark">
+    <div class="status-pill">Now live · v1.0.0</div>
+  </div>
   <h2>Embed <strong>Google apps</strong> anywhere.</h2>
   <p>A lightweight, themeable toolkit for embedding a Google apps grid on any website — no build step, one iframe, zero tracking.</p>
   <div class="hero-actions">
