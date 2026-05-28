@@ -90,6 +90,18 @@
     gap: 10px;
     text-decoration: none;
     color: inherit;
+    border-radius: 6px;
+    padding: 2px 6px;
+    margin: 0 -6px;
+    transition: background 0.15s;
+  }
+
+  /* Escape hatch back to the project page (and thus the site nav) —
+     the builder itself is a chrome-free app surface, so this link is
+     the way out. Give it a hover affordance so it reads as clickable. */
+  header a.wordmark:hover {
+    background: rgba(255,255,255,0.05);
+    text-decoration: none;
   }
 
   header h1 {
@@ -397,7 +409,7 @@
     <span class="brand-name">ShadoLogiq Labs</span>
   </a>
   <span class="crumb-sep">/</span>
-  <a href="index.html" class="wordmark">
+  <a href="index.html" class="wordmark" title="Back to Gapps Embed">
     <h1>Gapps Embed</h1>
     <span class="badge">v1.0.0</span>
   </a>
